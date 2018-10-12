@@ -128,4 +128,43 @@ public class HibernateUtils {
         }
         return(companyNameList);
      }
+
+	public static String getCompanyDateFormat(String companyName){
+	
+		String date_format = "";
+	
+		List<AdCompany> companyList = new ArrayList<AdCompany>();
+		companyList = HibernateUtils.getCompanyList();
+		outerbreak:
+		for (AdCompany com : companyList) {
+			if(companyName.equals(com.getCompany_name())){
+				date_format = com.getCompany_date_format();
+				break outerbreak;
+			}
+		}
+		
+		return date_format.toLowerCase();
+	}
+
+	public static char getDateSeparator(String date_format) {
+		char separator = ' ';
+		char Char;
+		
+			char[] data_array = date_format.toCharArray();
+			
+			int i = 0;
+			boolean isGet = false;
+			
+			while((i < data_array.length) && (isGet == false)){
+				Char = data_array[i];
+				if(Character.toString(Char).matches("[^a-z]") == true){
+					isGet = true;
+					separator = Char;
+				}
+				i++;
+			}
+			
+		
+		return(separator);
+	}
 }

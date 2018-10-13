@@ -3,8 +3,8 @@ package hu.lacikiss.csv2db;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -67,13 +67,13 @@ public class Utils {
 		return (url);
 	}
 
-	public static boolean isThisDateValid(String dateToValidate, String dateFromat) {
+	public static boolean isThisDateValid(String dateToValidate, String dateFormat) {
 
 		if (dateToValidate == null) {
 			return false;
 		}
 
-		SimpleDateFormat sdf = new SimpleDateFormat(dateFromat);
+		SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
 		sdf.setLenient(false);
 
 		try {
@@ -83,7 +83,8 @@ public class Utils {
 
 		} catch (ParseException e) {
 
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("Not valid date in csv record: "+dateToValidate);
 			return false;
 		}
 
@@ -94,7 +95,7 @@ public class Utils {
 			boolean lead_zero_in_month) {
 		String dateString = "";
 
-		char separator = HibernateUtils.getDateSeparator(date_format.toLowerCase());
+		char separator = Utils.getDateSeparator(date_format.toLowerCase());
 
 		if ((monthString.length() == 1) && (lead_zero_in_month == false)) {
 			monthString = "0" + monthString;
@@ -134,15 +135,44 @@ public class Utils {
 		return (dateString);
 	}
 
-public static void readCsv(String urlString) throws IOException
+	public static List<CSVRecord> readCsv(String urlString) throws IOException
+
 	{
 		URL url = new URL(urlString);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-		CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withHeader("Date","App","Platform","Requests","Impressions","Revenue").withIgnoreHeaderCase().withTrim());
-		for (CSVRecord csvRecord: csvParser) {
-	        System.out.println(csvRecord.get(0));
-	    }
+		CSVParser csvParser = new CSVParser(reader,
+				CSVFormat.DEFAULT.withHeader("Date", "App", "Platform", "Requests", "Impressions", "Revenue")
+						.withIgnoreHeaderCase().withTrim());
+		List<CSVRecord> csvRecordsList = csvParser.getRecords();
+		csvRecordsList.remove(0);
 		csvParser.close();
+		return (csvRecordsList);
+	}
+	public static Date StringToDate(String dateInString, String dateformat) throws ParseException{
+	    DateFormat formatter = new SimpleDateFormat(dateformat);
+	    Date date = formatter.parse(dateInString);
+		return date;
+	}
 
+	public static char getDateSeparator(String date_format) {
+		char separator = ' ';
+		char Char;
+		
+			char[] data_array = date_format.toCharArray();
+			
+			int i = 0;
+			boolean isGet = false;
+			
+			while((i < data_array.length) && (isGet == false)){
+				Char = data_array[i];
+				if(Character.toString(Char).matches("[^a-z]") == true){
+					isGet = true;
+					separator = Char;
+				}
+				i++;
+			}
+			
+		
+		return(separator);
 	}
 }

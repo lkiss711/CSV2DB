@@ -7,9 +7,7 @@ import java.util.Set;
  
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -31,7 +29,6 @@ public class AdCompany {
 	private String company_date_format;
 	private boolean company_is_lead_zero_month;
 	private String  company_url;
-	private Set<AdCompany> companies = new HashSet<AdCompany>(0);
 
 	
 	

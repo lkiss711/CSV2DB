@@ -1,10 +1,14 @@
 package hu.lacikiss.csv2db;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.csv.CSVRecord;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -146,25 +150,45 @@ public class HibernateUtils {
 		return date_format.toLowerCase();
 	}
 
-	public static char getDateSeparator(String date_format) {
-		char separator = ' ';
-		char Char;
-		
-			char[] data_array = date_format.toCharArray();
-			
-			int i = 0;
-			boolean isGet = false;
-			
-			while((i < data_array.length) && (isGet == false)){
-				Char = data_array[i];
-				if(Character.toString(Char).matches("[^a-z]") == true){
-					isGet = true;
-					separator = Char;
-				}
-				i++;
+	public static void insertCsvRecToDB(CSVRecord csvrec){
+
+		  	SessionFactory factory = HibernateUtils.getSessionFactory();
+		    Session session = factory.getCurrentSession();
+		    Transaction tx = session.beginTransaction();
+	
+		    String dateString = csvrec.get("Date");
+		    System.out.println(dateString);
+		    Date now = new Date();
+		    Date date;
+			try {
+				date = Utils.StringToDate(dateString, "dd/mm/yyyy");
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+				return;
 			}
-			
-		
-		return(separator);
+	
+		    Daily_Report dr = new Daily_Report();
+		    
+		    dr.setReport_id(now.getTime()+csvrec.getRecordNumber());
+		    dr.setReport_app(csvrec.get("App"));
+		    dr.setReport_date(date);
+		    
+		    int imp = Integer.parseInt(csvrec.get("Impressions"));
+		    
+		    dr.setReport_impressions(imp);
+		    dr.setReport_platform(csvrec.get("Platform"));
+	
+		    int req = Integer.parseInt(csvrec.get("Requests"));
+		    
+		    dr.setReport_requests(req);
+		    dr.setReport_revenue(csvrec.get("Revenue"));
+		    dr.setReport_timestamp(now);
+		    
+		    
+		    session.save(dr);
+		    tx.commit();
+		    session.close();
+    	
 	}
 }

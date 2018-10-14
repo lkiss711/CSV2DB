@@ -126,7 +126,6 @@ public class HibernateUtils {
 		    Transaction tx = session.beginTransaction();
 	
 		    String dateString = csvrec.get("Date");
-		    System.out.println(dateString);
 		    Date now = new Date();
 		    Date date;
 			try {

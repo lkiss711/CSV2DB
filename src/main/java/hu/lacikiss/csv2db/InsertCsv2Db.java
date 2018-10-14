@@ -11,7 +11,6 @@ public class InsertCsv2Db {
 	
 	public static void main(String[] args) throws ParseException, IOException{
 		
-		
 		String url = Utils.getUrl(args[0], args[1]);
 		Utils.readCsv(url);
 	    List<CSVRecord> csvRecordList = Utils.readCsv(url);
@@ -30,5 +29,6 @@ public class InsertCsv2Db {
 	    System.exit(0);
 
 	}
+
 }
 

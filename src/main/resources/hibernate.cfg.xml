@@ -29,7 +29,6 @@
  
       <mapping class="hu.lacikiss.csv2db.AdCompany" />
       <mapping class="hu.lacikiss.csv2db.Daily_Report" />
-      <mapping class="hu.lacikiss.csv2db.Table1" />
 
  
   </session-factory>

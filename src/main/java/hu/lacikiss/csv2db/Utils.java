@@ -21,9 +21,6 @@ public class Utils {
 	public static boolean isValidArgs(String args0, String args1) {
 		boolean isValid = false;
 
-		List<AdCompany> companyList = new ArrayList<AdCompany>();
-		companyList = HibernateUtils.getCompanyList();
-
 		List<String> companyNameList = new ArrayList<String>();
 		companyNameList = HibernateUtils.getCompanyNameList();
 

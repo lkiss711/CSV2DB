@@ -85,10 +85,5 @@ public class Daily_Report {
 
 	public void setReport_timestamp(Date report_timestamp) {
 		this.report_timestamp = report_timestamp;
-	}
-
-	
-	
-	
-	
+	}	
 }

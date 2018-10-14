@@ -20,14 +20,11 @@ public class HibernateUtils {
  
     private static final SessionFactory sessionFactory = buildSessionFactory();
  
-    // Hibernate 5:
     private static SessionFactory buildSessionFactory() {
         try {
-            // Create the ServiceRegistry from hibernate.cfg.xml
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()//
                     .configure("hibernate.cfg.xml").build();
  
-            // Create a metadata sources using the specified service registry.
             Metadata metadata = new MetadataSources(serviceRegistry).getMetadataBuilder().build();
  
             return metadata.getSessionFactoryBuilder().build();
@@ -43,8 +40,9 @@ public class HibernateUtils {
     }
  
     public static void shutdown() {
-        // Close caches and connection pools
-        getSessionFactory().close();
+
+    	getSessionFactory().close();
+
     }
     public static List<AdCompany> getCompanyList(){
  	   SessionFactory factory = HibernateUtils.getSessionFactory();
@@ -55,31 +53,19 @@ public class HibernateUtils {
  
        try {
             
-           // All the action with DB via Hibernate
-           // must be located in one transaction.
-           // Start Transaction.            
            session.getTransaction().begin();
- 
     
-            
-           // Create an HQL statement, query the object.
-           // Equivalent to the SQL statement:
-           // Select e.* from EMPLOYEE e order by e.EMP_NAME, e.EMP_NO
            String sql = "FROM hu.lacikiss.csv2db.AdCompany";
  
-   
-           // Create Query object.
            Query<AdCompany> query = session.createQuery(sql);
  
     
-           // Execute query.
            List<AdCompany> companies = query.getResultList();
            
            for (AdCompany com : companies) {
                companyList.add(com);
            }
   
-           // Commit data.
            session.getTransaction().commit();
            session.close();
        } catch (Exception e) {
@@ -97,37 +83,20 @@ public class HibernateUtils {
         Session session = factory.getCurrentSession();
   
         try {
-             
-            // All the action with DB via Hibernate
-            // must be located in one transaction.
-            // Start Transaction.            
             session.getTransaction().begin();
-  
-     
-             
-            // Create an HQL statement, query the object.
-            // Equivalent to the SQL statement:
-            // Select e.* from EMPLOYEE e order by e.EMP_NAME, e.EMP_NO
             String sql = "FROM hu.lacikiss.csv2db.AdCompany";
   
-    
-            // Create Query object.
             Query<AdCompany> query = session.createQuery(sql);
-  
      
-            // Execute query.
             List<AdCompany> companies = query.getResultList();
             
             for (AdCompany com : companies) {
                 companyNameList.add(com.getCompany_name());
             }
-   
-            // Commit data.
             session.getTransaction().commit();
             session.close();
         } catch (Exception e) {
             e.printStackTrace();
-            // Rollback in case of an error occurred.
             session.getTransaction().rollback();
         }
         return(companyNameList);
@@ -163,7 +132,6 @@ public class HibernateUtils {
 			try {
 				date = Utils.StringToDate(dateString, "dd/mm/yyyy");
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				//e.printStackTrace();
 				return;
 			}

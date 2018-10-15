@@ -8,7 +8,7 @@
   <session-factory>
       <!-- Database connection settings -->
       <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-      <property name="connection.url">jdbc:mysql://localhost/apps7?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;autoReconnect=true&amp;useSSL=false      </property>
+      <property name="connection.url">jdbc:mysql://ec2-34-207-215-129.compute-1.amazonaws.com/apps7?useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;autoReconnect=true&amp;useSSL=false      </property>
       <property name="connection.username">db_user</property>
       <property name="connection.password">db_pass</property>
  

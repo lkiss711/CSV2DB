@@ -1,0 +1,17 @@
+Problem 2: Analysing data
+
+Sanity check
+
+AdUmbrella 16.9.2017 record 67: 16/9/2017	My Talking Ben	iOS	8268	8268	16.536  (check the numbers)
+Supernetwork 2017-09-15 record 73: 15/9/2017,My Talking Angela,Android,8661,8661,€8.66 (check the numbers)
+
+Possible sanity checks: 
+format of the file (with header or without)
+number of clomuns
+If you know a business logics, you can check the relations between numbers
+
+Problem 3: Reliable design
+
+I would try to design a proper structure for a metadata. It can provides the data of datasets, so we can follow the data processes.
+Unfortunately I'm not familiar with Google Cloud, but I vote for this. 
+https://cloud.google.com/compute/docs/storing-retrieving-metadata
